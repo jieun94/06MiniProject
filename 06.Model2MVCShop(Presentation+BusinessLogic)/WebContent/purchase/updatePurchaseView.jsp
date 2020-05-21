@@ -16,7 +16,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${pcVO.tranNo}">
+<form name="updatePurchase" method="post"	action="/updatePurchase.do?tranNo=${purchase.tranNo}">
 
 <table width="100%" height="37" border="0" cellpadding="0" cellspacing="0">
 	<tr>
@@ -44,8 +44,8 @@
 	<tr>
 		<td width="104" class="ct_write">구매자아이디</td>
 		<td bgcolor="D6D6D6" width="1"></td>
-		<td class="ct_write01">${pcVO.buyer.userId}</td>
-		<input type="hidden" name="buyerId" value="user14">
+		<td class="ct_write01">${purchase.buyer.userId}</td>
+		<input type="hidden" name="buyerId" value="${purchase.buyer.userId}">
 	</tr>
 	<tr>
 		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
@@ -56,8 +56,8 @@
 		<td class="ct_write01">
 			<select 	name="paymentOption" 	class="ct_input_g" style="width: 100px; height: 19px" 
 							maxLength="20">
-				<option value="1" ${!empty pcVO.paymentOption && pcVO.paymentOption==1 ? "selected" : ""}>현금구매</option>
-				<option value="2" ${!empty pcVO.paymentOption && pcVO.paymentOption==2 ? "selected" : ""}>신용구매</option>
+				<option value="1" ${!empty purchase.paymentOption && purchase.paymentOption=='1' ? "selected" : ""}>현금구매</option>
+				<option value="2" ${!empty purchase.paymentOption && purchase.paymentOption=='2' ? "selected" : ""}>신용구매</option>
 			</select>
 		</td>
 	</tr>
@@ -69,7 +69,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverName" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${pcVO.receiverName}" />
+							maxLength="20" value="${purchase.receiverName}" />
 		</td>
 	</tr>
 	<tr>
@@ -80,7 +80,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverPhone" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${pcVO.receiverPhone}" />
+							maxLength="20" value="${purchase.receiverPhone}" />
 		</td>
 	</tr>
 
@@ -92,7 +92,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverAddr" class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${pcVO.divyAddr}" />
+							maxLength="20" value="${purchase.divyAddr}" />
 		</td>
 	</tr>
 	<tr>
@@ -103,7 +103,7 @@
 		<td bgcolor="D6D6D6" width="1"></td>
 		<td class="ct_write01">
 			<input 	type="text" name="receiverRequest" 	class="ct_input_g" style="width: 100px; height: 19px" 
-							maxLength="20" value="${pcVO.divyRequest}" />
+							maxLength="20" value="${purchase.divyRequest}" />
 		</td>
 	</tr>
 	<tr>
@@ -115,7 +115,7 @@
 		<td width="200" class="ct_write01">
 			<input type="text" readonly="readonly" name="divyDate" class="ct_input_g" 
 						style="width: 100px; height: 19px" maxLength="20"/>
-				<img src="../images/ct_icon_date.gif" width="15" height="15" value="${pcVO.divyDate.substring(0, 9)} "
+				<img src="../images/ct_icon_date.gif" width="15" height="15" value="${purchase.divyDate.substring(0, 9)} "
 							onclick="show_calendar('document.updatePurchase.divyDate', document.updatePurchase.divyDate.value)"/>
 		</td>
 	</tr>

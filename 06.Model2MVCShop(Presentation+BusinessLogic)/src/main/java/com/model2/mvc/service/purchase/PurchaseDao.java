@@ -18,6 +18,8 @@ public interface PurchaseDao {
 	
 	public List<Purchase> getPurchaseList(Search search, String buyerId) throws Exception;
 	
+	public List<Purchase> getSaleList(Search search, int prodNo) throws Exception;
+	
 	public void updatePurchase(Purchase purchaseVO) throws Exception;
 	
 	public void updateTranCode(Purchase purchaseVO) throws Exception;

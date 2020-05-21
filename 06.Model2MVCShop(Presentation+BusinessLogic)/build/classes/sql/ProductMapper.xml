@@ -22,7 +22,7 @@
 	<insert 	id="insertProduct"		parameterType="product" >
 	 	INSERT
 		INTO product( prod_no, prod_name, prod_detail, manufacture_day, price, image_file, reg_date, prod_num) 
-		VALUES	 (	seq_product_prod_no.NEXTVAL , #{prodName} , #{prodDetail} , #{manuDate} , #{price} , 
+		VALUES	 (	seq_product_prod_no.NEXTVAL , #{prodName} , #{prodDetail:VARCHAR} , #{manuDate:VARCHAR} , #{price} , 
 							#{fileName:VARCHAR} , SYSDATE, #{prodNum} )
 	 </insert>
 	 
@@ -39,10 +39,10 @@
 	   	UPDATE product
 	   	<set>
 	   		prod_name 			= #{prodName} ,
-			prod_detail			= #{prodDetail},
-			manufacture_day 	= #{manuDate} ,
+			prod_detail			= #{prodDetail:VARCHAR},
+			manufacture_day 	= #{manuDate:VARCHAR} ,
 			price				= #{price},
-			image_file			= #{fileName},
+			image_file			= #{fileName:VARCHAR},
 			prod_num			= #{prodNum}
 	   	</set>
 	   	WHERE prod_no = #{prodNo}

@@ -2,13 +2,13 @@ package com.model2.mvc.web.purchase;
 
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -65,7 +65,7 @@ public class PurchaseController {
 	}
 	
 	@RequestMapping("/addPurchase.do")
-	public String addPurchase(HttpSession session, @ModelAttribute("prod") Product product, Purchase purchase, Model model) throws Exception {
+	public ModelAndView addPurchase(HttpSession session, Product product, Purchase purchase) throws Exception {
 		
 		System.out.println("/addPurchase.do");
 		
@@ -76,13 +76,15 @@ public class PurchaseController {
 		purchaseService.addPurchase(purchase);
 		//purchaseService.updateProdNum(purchase);
 		
-		model.addAttribute("purchase", purchase);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/purchase/addPurchase.jsp");
+		modelAndView.addObject("purchase", purchase);
 		
-		return "forward:/purchase/addPurchase.jsp";
+		return modelAndView;
 	}
 	
 	@RequestMapping("/listPurchase.do")
-	public String listPurchase(@ModelAttribute("search") Search search, HttpSession session, Model model, Purchase purchase) throws Exception {
+	public ModelAndView listPurchase(@ModelAttribute("search") Search search, HttpSession session, Purchase purchase) throws Exception {
 		
 		System.out.println("/listProduct.do");
 		
@@ -92,18 +94,83 @@ public class PurchaseController {
 		search.setPageSize(pageSize);
 		
 		String buyerId = ((User)session.getAttribute("user")).getUserId();
-		//purchase.setTranCode(purchase.getTranCode().trim());
+		
 		
 		// Business logic 수행
 		Map<String , Object> map=purchaseService.getPurchaseList(search, buyerId);
+		//purchase.setTranCode(purchase.getTranCode().trim());
 		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
 		System.out.println(resultPage);
 		
-		// Model 과 View 연결
-		model.addAttribute("search", search);
-		model.addAttribute("list", map.get("list"));
-		model.addAttribute("resultPage", resultPage);
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/purchase/listPurchase.jsp");
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
 		
-		return "forward:/purchase/listPurchase.jsp";
+		return modelAndView;
 	}
+	
+	@RequestMapping("/getPurchase.do")
+	public ModelAndView getPurchase(@RequestParam("tranNo") int tranNo, Purchase purchase) throws Exception {
+		
+		System.out.println("/getPurchase.do");
+		
+		purchase = purchaseService.getPurchase(tranNo);
+		purchase.setPaymentOption(purchase.getPaymentOption().trim());
+		purchase.setTranCode(purchase.getTranCode().trim());
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/purchase/getPurchase.jsp");
+		modelAndView.addObject("purchase",purchase);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updatePurchaseView.do")
+	public ModelAndView updatePurchaseView(@RequestParam("tranNo") int tranNo, Purchase purchase) throws Exception{
+		
+		System.out.println("/updatePurchaseView.do");
+		
+		purchase = purchaseService.getPurchase(tranNo);
+		purchase.setPaymentOption(purchase.getPaymentOption().trim());
+		purchase.setTranCode(purchase.getTranCode().trim());
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/purchase/updatePurchaseView.jsp");
+		modelAndView.addObject("purchase",purchase);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updatePurchase.do")
+	public ModelAndView updatePurchase(Purchase purchase) throws Exception {
+		
+		System.out.println("/updatePurchase.do");
+		
+		purchaseService.updatePurcahse(purchase);
+		//purchase.setPaymentOption(purchase.getPaymentOption().trim());
+		//purchase.setTranCode(purchase.getTranCode().trim());
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("redirect:/getPurchase.do?tranNo="+purchase.getTranNo());
+		modelAndView.addObject("purchase",purchase);
+		
+		return modelAndView;
+	}
+	
+	@RequestMapping("/updateTranCode.do")
+	public ModelAndView updateTranCode( Purchase purchase ) throws Exception {
+		
+		System.out.println("/updateTranCode.do");
+		
+		purchaseService.updateTranCode(purchase);
+		
+		ModelAndView modelAndView = new ModelAndView();
+			modelAndView.setViewName("redirect:/listPurchase.do");
+		
+		modelAndView.addObject("purchase",purchase);
+		return modelAndView;
+	}
+	
 }

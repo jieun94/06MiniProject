@@ -51,10 +51,10 @@
 	   	<set>
 	   		payment_option		= #{paymentOption} ,
 			receiver_name		= #{receiverName},
-			receiver_phone 		= #{receiverPhone} ,
-			demailaddr			= #{divyAddr},
-			dlvy_request		= #{divyRequest},
-			dlvy_date			= #{divyDate}
+			receiver_phone 		= #{receiverPhone:VARCHAR} ,
+			demailaddr			= #{divyAddr:VARCHAR},
+			dlvy_request		= #{divyRequest:VARCHAR},
+			dlvy_date			= #{divyDate:VARCHAR}
 	   	</set>
 	   	WHERE tran_no = #{tranNo}
 	 </update>
@@ -97,5 +97,6 @@
 						FROM transaction
 						WHERE buyer_id = #{value} ) countTable						
 	 </select>
+	 
 	 
 </mapper>

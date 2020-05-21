@@ -52,6 +52,10 @@ public class PurchaseDaoImpl implements PurchaseDao{
 		return sqlSession.selectList("PurchaseMapper.getPcList", map); 
 	}
 	
+	public List<Purchase> getSaleList(Search search, int prodNo) throws Exception{
+		return null;
+	}
+	
 	public void updatePurchase(Purchase purchase) throws Exception {
 		sqlSession.update("PurchaseMapper.updatePurchase", purchase);
 	}
@@ -62,6 +66,10 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	
 	public int getTotalCount(String buyerId) throws Exception {
 		return sqlSession.selectOne("PurchaseMapper.getTotalCount", buyerId);
+	}
+	
+	public int getTotalCount(Search search) throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.getTotalCount", search);
 	}
 	
 	public void updateProdNum(Purchase purchase) throws Exception {
