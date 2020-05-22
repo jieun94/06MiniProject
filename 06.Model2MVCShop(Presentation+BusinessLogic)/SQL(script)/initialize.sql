@@ -2,37 +2,39 @@
 DROP TABLE transaction;
 DROP TABLE product;
 DROP TABLE users;
+DROP TABLE review;
 
 DROP SEQUENCE seq_product_prod_no;
 DROP SEQUENCE seq_transaction_tran_no;
-
+DROP SEQUENCE seq_review_review_no;
 
 CREATE SEQUENCE seq_product_prod_no		 	INCREMENT BY 1 START WITH 10000;
 CREATE SEQUENCE seq_transaction_tran_no	INCREMENT BY 1 START WITH 10000;
-
+CREATE SEQUENCE seq_review_review_no	INCREMENT BY 1 START WITH 10000;
 
 CREATE TABLE users ( 
 	user_id 			VARCHAR2(20)	NOT NULL,
-	user_name 	VARCHAR2(50)	NOT NULL,
-	password 		VARCHAR2(10)	NOT NULL,
-	role 					VARCHAR2(5) 		DEFAULT 'user',
-	ssn 					VARCHAR2(13),
-	cell_phone 		VARCHAR2(14),
+	user_name 			VARCHAR2(50)	NOT NULL,
+	password 			VARCHAR2(10)	NOT NULL,
+	role 				VARCHAR2(5) 	DEFAULT 'user',
+	ssn 				VARCHAR2(13),
+	cell_phone 			VARCHAR2(14),
 	addr 				VARCHAR2(100),
 	email 				VARCHAR2(50),
-	reg_date 		DATE,
+	reg_date 			DATE,
 	PRIMARY KEY(user_id)
 );
 
 
 CREATE TABLE product ( 
-	prod_no 						NUMBER 				NOT NULL,
-	prod_name 				VARCHAR2(100) 	NOT NULL,
-	prod_detail 				VARCHAR2(200),
+	prod_no 			NUMBER 				NOT NULL,
+	prod_name 			VARCHAR2(100) 	NOT NULL,
+	prod_detail 		VARCHAR2(200),
 	manufacture_day		VARCHAR2(8),
-	price 							NUMBER(10),
-	image_file 					VARCHAR2(100),
-	reg_date 					DATE,
+	price 				NUMBER(10),
+	image_file 			VARCHAR2(100),
+	reg_date 			DATE,
+	prod_num			NUMBER,
 	PRIMARY KEY(prod_no)
 );
 
@@ -48,9 +50,20 @@ CREATE TABLE transaction (
 	tran_status_code	CHAR(3),
 	order_data 			DATE,
 	dlvy_date 				DATE,
+	tran_num			NUMBER,
 	PRIMARY KEY(tran_no)
 );
 
+CREATE TABLE review ( 
+	review_no					NUMBER			NOT NULL,
+	tran_no 					NUMBER 			NOT NULL REFERENCES transaction(tran_no),
+	prod_no 					NUMBER(16)		NOT NULL REFERENCES product(prod_no),
+	buyer_id 					VARCHAR2(20)	NOT NULL REFERENCES users(user_id),
+	review_detail 				VARCHAR2(100),
+	image_file 					VARCHAR2(100),
+	reg_date 					DATE,
+	PRIMARY KEY(review_no)
+);
 
 INSERT 
 INTO users ( user_id, user_name, password, role, ssn, cell_phone, addr, email, reg_date ) 
