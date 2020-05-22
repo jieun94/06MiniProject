@@ -39,7 +39,7 @@
 	</tr>
 </table>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+<%-- <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
 		<td align="right">
 			<select name="searchCondition" class="ct_input_g" style="width:80px">
@@ -65,7 +65,7 @@
 			</table>
 		</td>
 	</tr>
-</table>
+</table> --%>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
 	<tr>
@@ -88,35 +88,36 @@
 		<td colspan="11" bgcolor="808285" height="1"></td>
 	</tr>
 	<c:set var="i" value="0"/>
-	<c:forEach var="pcVO" items="${list}">
+	<c:forEach var="purchase" items="${list}">
 		<c:set var="i" value="${ i+1 }" />
 		<tr class="ct_list_pop">
 			<td align="center">${ i }</td>
 			<td></td>
 			<td align="left">
 				<c:choose>
-					<c:when test="${pcVO.tranCode=='0'}">
-						<a href="/getProduct.do?prodNo=${pcVO.purchaseProd.prodNo}&menu=manage">${pcVO.purchaseProd.prodName}</a>
+					<c:when test="${purchase.tranCode=='0  '}">
+						<a href="/getProduct.do?prodNo=${purchase.purchaseProd.prodNo}&menu=manage">${purchase.purchaseProd.prodName}</a>
 					</c:when>
 					<c:otherwise>
-						${pcVO.purchaseProd.prodName}
+						${purchase.purchaseProd.prodName}
 					</c:otherwise>
 				</c:choose>
 			</td>
 			<td></td>
-			<td align="left">${pcVO.receiverName}</td>
+			<td align="left">${purchase.receiverName}</td>
 			<td></td>
-			<td align="left">${pcVO.divyAddr}</td>
+			<td align="left">${purchase.divyAddr}</td>
 			<td></td>
 			<td align="left">
 				<c:choose>
-					<c:when test="${pcVO.tranCode==1}">
-						구매완료 <a href="/updateTranCodeByProd.do?tranNo=${pcVO.tranNo}&tranCode=2">배송하기</a>
+					<c:when test="${purchase.tranCode=='1  '}">
+						<%-- 구매완료 <a href="/updateTranCodeByProd.do?tranNo=${purchase.tranNo}&tranCode=2">배송하기</a> --%>
+						구매완료 <a href="/updateTranCode.do?tranNo=${purchase.tranNo}&tranCode=2">배송하기</a>
 					</c:when>
-					<c:when test="${pcVO.tranCode==2}">
+					<c:when test="${purchase.tranCode=='2  '}">
 						배송중
 					</c:when>
-					<c:when test="${pcVO.tranCode==3}">
+					<c:when test="${purchase.tranCode=='3  '}">
 						배송완료
 					</c:when>
 					<c:otherwise>

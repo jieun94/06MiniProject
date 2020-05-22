@@ -122,12 +122,4 @@
 						</if> ) countTable						
 	 </select>
 	 
-	 <update	id="updateProdNum"	parameterType="purchase">
-	   	UPDATE product
-	   	<set>
-	   		prod_num 			= prod_num - #{tranNum}
-	   	</set>
-	   	WHERE prod_no = #{prodNo}
-	 </update>
-	 
 </mapper>

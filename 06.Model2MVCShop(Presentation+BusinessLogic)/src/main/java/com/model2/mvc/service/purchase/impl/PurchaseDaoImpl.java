@@ -30,6 +30,7 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	
 	public void insertPurchase(Purchase purchase) throws Exception{
 		sqlSession.insert("PurchaseMapper.insertPurchase", purchase);
+		sqlSession.update("PurchaseMapper.updateProdNum", purchase);
 	}
 	
 	public Purchase findPurchase(int tranNo) throws Exception {
@@ -53,7 +54,11 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	}
 	
 	public List<Purchase> getSaleList(Search search, int prodNo) throws Exception{
-		return null;
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("search", search);
+		map.put("prodNo", prodNo);
+		
+		return sqlSession.selectList("PurchaseMapper.getSaleList", map); 
 	}
 	
 	public void updatePurchase(Purchase purchase) throws Exception {
@@ -70,6 +75,10 @@ public class PurchaseDaoImpl implements PurchaseDao{
 	
 	public int getTotalCount(Search search) throws Exception {
 		return sqlSession.selectOne("PurchaseMapper.getTotalCount", search);
+	}
+	
+	public int getProdCount(int prodNo) throws Exception {
+		return sqlSession.selectOne("PurchaseMapper.getProdCount", prodNo);
 	}
 	
 	public void updateProdNum(Purchase purchase) throws Exception {

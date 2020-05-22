@@ -167,9 +167,38 @@ public class PurchaseController {
 		purchaseService.updateTranCode(purchase);
 		
 		ModelAndView modelAndView = new ModelAndView();
+		if (purchase.getTranCode().contentEquals("3")) {
 			modelAndView.setViewName("redirect:/listPurchase.do");
-		
+		} else {
+			modelAndView.setViewName("forward:/listProduct.do?menu=manage");
+		}
 		modelAndView.addObject("purchase",purchase);
+		return modelAndView;
+	}
+	
+	@RequestMapping("/listSale.do")
+	public ModelAndView listSale(@ModelAttribute("search") Search search, @RequestParam("prodNo") int prodNo, Purchase purchase) throws Exception {
+		
+		System.out.println("/listSale.do");
+		
+		if(search.getCurrentPage() ==0 ){
+			search.setCurrentPage(1);
+		}
+		search.setPageSize(pageSize);
+		
+		// Business logic ผ๖วเ
+		Map<String , Object> map=purchaseService.getSaleList(search, prodNo);
+		//purchase.setPaymentOption(purchase.getPaymentOption().trim());
+		//purchase.setTranCode(purchase.getTranCode().trim());
+		Page resultPage = new Page( search.getCurrentPage(), ((Integer)map.get("totalCount")).intValue(), pageUnit, pageSize);
+		System.out.println(resultPage);
+		
+		ModelAndView modelAndView = new ModelAndView();
+		modelAndView.setViewName("forward:/purchase/listSale.jsp");
+		modelAndView.addObject("search", search);
+		modelAndView.addObject("list", map.get("list"));
+		modelAndView.addObject("resultPage", resultPage);
+		
 		return modelAndView;
 	}
 	

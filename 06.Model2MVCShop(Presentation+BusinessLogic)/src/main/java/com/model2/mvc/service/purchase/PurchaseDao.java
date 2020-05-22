@@ -26,5 +26,7 @@ public interface PurchaseDao {
 	
 	public int getTotalCount(String buyerId) throws Exception;
 	
+	public int getProdCount(int prodNo) throws Exception;
+	
 	public void updateProdNum(Purchase purchase) throws Exception;
 }

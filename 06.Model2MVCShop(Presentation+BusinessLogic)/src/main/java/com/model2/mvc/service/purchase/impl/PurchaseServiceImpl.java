@@ -61,8 +61,16 @@ public class PurchaseServiceImpl implements PurchaseService{
 	 * list); return list; }
 	 */
 	
-	public Map<String,Object> getSaleList(Search search) throws Exception {
-		return null;
+	public Map<String,Object> getSaleList(Search search, int prodNo) throws Exception {
+		
+		int totalCount = purchaseDao.getProdCount(prodNo);
+		List<Purchase> list = (List<Purchase>) purchaseDao.getSaleList(search, prodNo);
+		
+		Map<String, Object> map = new HashMap<String, Object>();
+		map.put("list", list );
+		map.put("search", search);
+		map.put("totalCount", new Integer(totalCount));
+		return map;
 	}
 	
 	public void updatePurcahse(Purchase purchase) throws Exception {
